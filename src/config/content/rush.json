@@ -1,0 +1,27 @@
+{
+  "destinations": [
+    { "id": "together", "product": "SG Translate Together", "job": "Everyday translation", "key": "1" },
+    { "id": "polyglot", "product": "Polyglot", "job": "Website translation", "key": "2" },
+    { "id": "api", "product": "SGT 2.0 API", "job": "App integration", "key": "3" }
+  ],
+  "cards": [
+    { "id": "r01", "tag": "Letter", "text": "Translate a one-page letter to a resident into Tamil", "answer": "together", "why": "A one-off document is everyday translation in the web portal." },
+    { "id": "r02", "tag": "Poster", "text": "Quick Malay version of a community event poster", "answer": "together", "why": "Short ad-hoc text suits the everyday web portal." },
+    { "id": "r03", "tag": "Email", "text": "Draft a Chinese reply to a resident's email", "answer": "together", "why": "Individual replies are everyday translation tasks." },
+    { "id": "r04", "tag": "Circular", "text": "Turn a staff circular into Malay for frontline officers", "answer": "together", "why": "Internal documents can be translated in the web portal." },
+    { "id": "r05", "tag": "Hotline", "text": "Prepare a Tamil hotline script for a new scheme", "answer": "together", "why": "Scripts and short texts are everyday translation work." },
+    { "id": "r06", "tag": "Notes", "text": "Translate grassroots session notes into Chinese", "answer": "together", "why": "Meeting notes are a typical everyday translation job." },
+    { "id": "r07", "tag": "Website", "text": "Offer our agency website in all four official languages", "answer": "polyglot", "why": "Whole-site multilingual publishing is what Polyglot is for." },
+    { "id": "r08", "tag": "FAQ pages", "text": "Keep translated FAQ pages in sync when English pages change", "answer": "polyglot", "why": "Polyglot handles translation of website content as it updates." },
+    { "id": "r09", "tag": "Microsite", "text": "Launch a campaign microsite in Chinese, Malay and Tamil", "answer": "polyglot", "why": "Multilingual government websites are Polyglot's job." },
+    { "id": "r10", "tag": "Switcher", "text": "Add a language switcher to a public information site", "answer": "polyglot", "why": "Website language options come from Polyglot." },
+    { "id": "r11", "tag": "Web pages", "text": "Translate 120 web pages before a policy launch", "answer": "polyglot", "why": "Large sets of web pages suit website translation." },
+    { "id": "r12", "tag": "Chatbot", "text": "Let our chatbot reply in Malay", "answer": "api", "why": "Live replies inside an app need API integration." },
+    { "id": "r13", "tag": "Forms", "text": "Show form field help text in the user's chosen language", "answer": "api", "why": "In-app, on-demand translation is an API integration." },
+    { "id": "r14", "tag": "Notifications", "text": "Send app notifications in each user's preferred language", "answer": "api", "why": "System-generated messages are translated through the API." },
+    { "id": "r15", "tag": "Case system", "text": "Build translation into our case management system", "answer": "api", "why": "Embedding translation in a system calls for the API." },
+    { "id": "r16", "tag": "Batch job", "text": "Translate thousands of SMS templates in a nightly job", "answer": "api", "why": "Automated batch jobs integrate through the API." },
+    { "id": "r17", "tag": "Kiosk app", "text": "Let a service kiosk app display Tamil instructions", "answer": "api", "why": "A digital service displaying translations integrates via the API." },
+    { "id": "r18", "tag": "Speech", "text": "Get a Chinese draft of a short speech for an event", "answer": "together", "why": "A single speech draft is everyday translation in the portal." }
+  ]
+}

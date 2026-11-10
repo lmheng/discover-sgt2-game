@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "questions": {
+    "workFunction": {
+      "kind": "single",
+      "prompt": "Pick your desk nameplate",
+      "options": [
+        { "id": "communications", "label": "Communications" },
+        { "id": "frontline", "label": "Frontline / service delivery" },
+        { "id": "product_engineering", "label": "Product / engineering / design" },
+        { "id": "operations", "label": "Operations / corporate" },
+        { "id": "other", "label": "Something else", "pinned": true },
+        { "id": "prefer_not_to_say", "label": "Prefer not to say", "pinned": true }
+      ]
+    },
+    "frequency": {
+      "kind": "single",
+      "prompt": "How often does translation land on your real desk?",
+      "options": [
+        { "id": "daily", "label": "Daily" },
+        { "id": "weekly", "label": "Weekly" },
+        { "id": "monthly", "label": "Monthly" },
+        { "id": "rarely", "label": "Rarely" },
+        { "id": "never", "label": "Never" }
+      ]
+    },
+    "contentTypes": {
+      "kind": "multi",
+      "prompt": "Sort what lands on your real desk",
+      "options": [
+        { "id": "public_notices", "label": "Public notices & press releases" },
+        { "id": "letters_emails", "label": "Letters & emails to the public" },
+        { "id": "website_pages", "label": "Website pages" },
+        { "id": "forms_services", "label": "Forms & digital services" },
+        { "id": "social_media", "label": "Social media posts" },
+        { "id": "print_signage", "label": "Posters, brochures & signage" },
+        { "id": "app_chatbot", "label": "App or chatbot text" },
+        { "id": "internal_docs", "label": "Internal documents" },
+        { "id": "other", "label": "Something else", "pinned": true }
+      ]
+    },
+    "challenges": {
+      "kind": "multi",
+      "prompt": "Which case files sound familiar?",
+      "options": [
+        { "id": "turnaround", "label": "Waiting too long for translations" },
+        { "id": "cost", "label": "Cost of translation" },
+        { "id": "terminology", "label": "Getting government terms right" },
+        { "id": "consistency", "label": "Keeping wording consistent" },
+        { "id": "quality_review", "label": "Checking translation quality" },
+        { "id": "coordination", "label": "Coordinating people and approvals" },
+        { "id": "other", "label": "Something else", "pinned": true },
+        { "id": "none", "label": "None of these", "exclusive": true, "pinned": true }
+      ]
+    },
+    "tools": {
+      "kind": "multi",
+      "prompt": "Who or what is on your real translation crew?",
+      "options": [
+        { "id": "generic_ai", "label": "General AI chat tools" },
+        { "id": "machine_translation", "label": "Online machine translation" },
+        { "id": "vendors", "label": "Translation vendors" },
+        { "id": "internal_translators", "label": "In-house translators" },
+        { "id": "bilingual_colleagues", "label": "Bilingual colleagues" },
+        { "id": "other", "label": "Something else", "pinned": true },
+        { "id": "none", "label": "No usual crew", "exclusive": true, "pinned": true }
+      ]
+    },
+    "capability": {
+      "kind": "single",
+      "prompt": "Pick the power-up that fits your work best",
+      "options": [
+        { "id": "web_portal", "label": "Web portal for everyday translation" },
+        { "id": "website_translation", "label": "Website translation" },
+        { "id": "api_integration", "label": "API for apps & systems" },
+        { "id": "glossary", "label": "Government glossary" },
+        { "id": "none", "label": "None of these", "pinned": true },
+        { "id": "unsure", "label": "Not sure yet", "pinned": true }
+      ]
+    }
+  }
+}

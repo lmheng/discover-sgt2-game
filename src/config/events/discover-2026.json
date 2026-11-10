@@ -1,0 +1,22 @@
+{
+  "id": "discover-2026",
+  "name": "{discover} Showcase 2026",
+  "shortName": "{discover} 2026",
+  "date": "2026-11-27",
+  "timezone": "Asia/Singapore",
+  "hours": { "setup": "09:00", "open": "10:00", "close": "15:30" },
+  "formsgUrl": "",
+  "govEntryReminder": "Thanks for playing! Please let our staff scan your GovEntry booth stamp.",
+  "researchEnabled": true,
+  "missions": {
+    "rush": { "durationMs": 30000 },
+    "detective": { "durationMs": 28000 },
+    "launch": { "durationMs": 30000 }
+  },
+  "kiosk": {
+    "idleWarningMs": 40000,
+    "idleCountdownMs": 10000,
+    "resultsTimeoutMs": 30000,
+    "staffPin": "2711"
+  }
+}

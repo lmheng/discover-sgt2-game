@@ -147,3 +147,13 @@ vite.config.ts.timestamp-*
 
 # Turbo Repo
 .turbo
+
+# wiTTy's Translation Rescue
+/data/
+/test-results/
+/playwright-report/
+/playwright/.cache/
+*.tsbuildinfo
+next-env.d.ts
+
+/.e2e-data/

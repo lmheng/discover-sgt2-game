@@ -1,0 +1,22 @@
+{
+  "id": "roadshow-template",
+  "name": "SGT 2.0 Roadshow (template)",
+  "shortName": "SGT 2.0 Roadshow",
+  "date": "2027-01-15",
+  "timezone": "Asia/Singapore",
+  "hours": { "setup": "09:00", "open": "10:00", "close": "17:00" },
+  "formsgUrl": "",
+  "govEntryReminder": "Thanks for playing! Please let our staff know you have completed the game.",
+  "researchEnabled": true,
+  "missions": {
+    "rush": { "durationMs": 30000 },
+    "detective": { "durationMs": 28000 },
+    "launch": { "durationMs": 30000 }
+  },
+  "kiosk": {
+    "idleWarningMs": 40000,
+    "idleCountdownMs": 10000,
+    "resultsTimeoutMs": 30000,
+    "staffPin": "2711"
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "rounds": [
+    {
+      "id": "d01",
+      "agency": "Ministry of Community Wellbeing (fictional)",
+      "title": "Active Ageing Card top-up",
+      "language": "zh",
+      "languageLabel": "中文 (Chinese)",
+      "glossary": { "en": "Active Ageing Card", "target": "乐龄活跃卡" },
+      "english": "Active Ageing Card holders will receive a $50 top-up in December. Check your Active Ageing Card balance online, or visit a community centre for help with your Active Ageing Card.",
+      "target": [
+        { "term": "乐龄活跃卡" },
+        { "text": "持有人将在" },
+        { "text": "十二月获得50元充值。" },
+        { "text": "请上网查询" },
+        { "term": "乐龄活跃卡" },
+        { "text": "余额，" },
+        { "text": "或前往社区中心" },
+        { "text": "办理" },
+        { "term": "活跃老年卡", "odd": true },
+        { "text": "相关事宜。" }
+      ],
+      "reviewStatus": "illustrative-pending-review",
+      "explanation": "The approved term was used twice, then a different wording slipped in. Residents may think it is a different card."
+    },
+    {
+      "id": "d02",
+      "agency": "Neighbourhood Greening Office (fictional)",
+      "title": "Community Garden Grant",
+      "language": "ms",
+      "languageLabel": "Bahasa Melayu (Malay)",
+      "glossary": { "en": "Community Garden Grant", "target": "Geran Taman Komuniti" },
+      "english": "Applications for the Community Garden Grant open on 1 March. Each estate may receive one Community Garden Grant per year. Submit your Community Garden Grant proposal through your town council.",
+      "target": [
+        { "text": "Permohonan untuk" },
+        { "term": "Geran Taman Komuniti" },
+        { "text": "dibuka pada 1 Mac." },
+        { "text": "Setiap estet boleh menerima satu" },
+        { "term": "Geran Taman Komuniti" },
+        { "text": "setahun." },
+        { "text": "Hantar cadangan" },
+        { "term": "Bantuan Kebun Masyarakat", "odd": true },
+        { "text": "anda melalui majlis bandaran." }
+      ],
+      "reviewStatus": "illustrative-pending-review",
+      "explanation": "One sentence used a different name for the same grant. Consistent terms help residents find the right scheme."
+    },
+    {
+      "id": "d03",
+      "agency": "Digital Inclusion Taskforce (fictional)",
+      "title": "Digital Skills Voucher",
+      "language": "ta",
+      "languageLabel": "தமிழ் (Tamil)",
+      "glossary": { "en": "Digital Skills Voucher", "target": "மின்னிலக்கத் திறன் பற்றுச்சீட்டு" },
+      "english": "Residents aged 50 and above can claim a Digital Skills Voucher. Use the Digital Skills Voucher at any partner library. The Digital Skills Voucher is valid until 31 December.",
+      "target": [
+        { "text": "50 வயதும் அதற்கு மேற்பட்டவர்களும்" },
+        { "term": "மின்னிலக்கத் திறன் பற்றுச்சீட்டு" },
+        { "text": "பெறலாம்." },
+        { "term": "மின்னிலக்கத் திறன் பற்றுச்சீட்டு" },
+        { "text": "எந்தப் பங்காளி நூலகத்திலும்" },
+        { "text": "பயன்படுத்தலாம்." },
+        { "term": "டிஜிட்டல் திறன் கூப்பன்", "odd": true },
+        { "text": "டிசம்பர் 31 வரை செல்லுபடியாகும்." }
+      ],
+      "reviewStatus": "illustrative-pending-review",
+      "explanation": "The last sentence switched to a different term. A glossary keeps scheme names consistent across a notice."
+    },
+    {
+      "id": "d04",
+      "agency": "Health Outreach Unit (fictional)",
+      "title": "Neighbourhood Health Screening",
+      "language": "zh",
+      "languageLabel": "中文 (Chinese)",
+      "glossary": { "en": "Neighbourhood Health Screening", "target": "社区健康检查" },
+      "english": "Neighbourhood Health Screening returns this Saturday. Bring your appointment slip to the Neighbourhood Health Screening counter. Neighbourhood Health Screening is free for residents.",
+      "target": [
+        { "term": "社区健康检查" },
+        { "text": "本周六" },
+        { "text": "再度举行。" },
+        { "text": "请携带预约单" },
+        { "text": "前往" },
+        { "term": "邻里体检", "odd": true },
+        { "text": "柜台。" },
+        { "term": "社区健康检查" },
+        { "text": "对居民免费。" }
+      ],
+      "reviewStatus": "illustrative-pending-review",
+      "explanation": "The counter used a different name from the event. Small inconsistencies like this confuse readers."
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "agency": "Agency for Neighbourhood Parks (fictional)",
+  "announcement": "Park Connector Night Walk - Saturday, 5 December",
+  "lanes": [
+    { "id": "zh", "label": "中文", "sample": "公园连道夜行 - 12月5日（星期六）", "issue": "The event name doesn't match the approved glossary term." },
+    { "id": "ms", "label": "Bahasa Melayu", "sample": "Jalan Malam Penghubung Taman - Sabtu, 5 Disember", "issue": "The date format differs from the agency style guide." },
+    { "id": "ta", "label": "தமிழ்", "sample": "பூங்கா இணைப்புப் பாதை இரவு நடை - டிசம்பர் 5, சனிக்கிழமை", "issue": "The place name should stay as the official name." }
+  ],
+  "reviewers": [
+    { "id": "rev-a", "name": "Reviewer A" },
+    { "id": "rev-b", "name": "Reviewer B" }
+  ],
+  "reviewStatus": "illustrative-pending-review",
+  "timings": { "translateMs": 1400, "reviewMs": 3200, "unreviewedPenaltyMs": 3000 }
+}
