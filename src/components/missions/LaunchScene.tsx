@@ -8,6 +8,9 @@ import { initLaunch, launchReducer, summarizeLaunch, type LaneStage, type LaneSt
 import type { MissionResult } from "@/lib/game/types";
 import { Icon, type IconName } from "@/components/ui/Icon";
 import { clientPoint, dropTargetAt, useGameLoop, useOnceWhen } from "@/components/game/hooks";
+import { BlockBar } from "@/components/ui/PixelProgress";
+import { CARD_SHADOW, DRAG_LIFT } from "@/components/ui/DragKit";
+import { RetroWindow } from "@/components/ui/RetroWindow";
 import { MissionShell } from "./MissionShell";
 
 const laneMeta = new Map(launchContent.lanes.map((l) => [l.id, l]));
@@ -28,10 +31,8 @@ function stepIndex(stage: LaneStage) {
 function Progress({ value, total, label }: { value: number; total: number; label: string }) {
   return (
     <div className="w-full" role="progressbar" aria-label={label} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round((value / total) * 100)}>
-      <p className="mb-1 text-sm font-semibold text-blue-300">{label}</p>
-      <div className="h-2.5 overflow-hidden rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-gradient-to-r from-blue-500 to-purple-500" style={{ width: `${(value / total) * 100}%` }} />
-      </div>
+      <p className="mb-1 font-pixel text-xs uppercase text-ink">{label}</p>
+      <BlockBar fraction={value / total} blocks={12} tone="forest" />
     </div>
   );
 }
@@ -60,7 +61,7 @@ export function LaunchScene({
     switch (lane.stage) {
       case "draft":
         return (
-          <button type="button" onClick={() => dispatch({ type: "runSgt", laneId: id })} className="lane-btn bg-blue-500 text-white" data-testid={`run-${id}`}>
+          <button type="button" onClick={() => dispatch({ type: "runSgt", laneId: id })} className="lane-btn retro-press bg-butter" data-testid={`run-${id}`}>
             <Icon name="bolt" size={18} /> Run SGT
           </button>
         );
@@ -72,7 +73,7 @@ export function LaunchScene({
             <button
               type="button"
               onClick={() => dispatch({ type: "assignReviewer", laneId: id })}
-              className="lane-btn flex-1 bg-purple-500 text-white"
+              className="lane-btn retro-press flex-1 bg-mint"
               data-testid={`review-${id}`}
             >
               <Icon name="user" size={18} /> {state.selectedReviewerId ? `Assign ${reviewerName.get(state.selectedReviewerId)}` : "Send for review"}
@@ -80,7 +81,7 @@ export function LaunchScene({
             <button
               type="button"
               onClick={() => dispatch({ type: "publish", laneId: id })}
-              className="lane-btn border-2 border-white/30 bg-transparent text-ink"
+              className="lane-btn retro-press bg-paper"
               data-testid={`publish-${id}`}
             >
               <Icon name="rocket" size={18} /> Publish now
@@ -98,23 +99,23 @@ export function LaunchScene({
       case "issue":
         return (
           <div className="w-full">
-            <p className="mb-2 flex items-start gap-1.5 text-sm font-medium text-red-400">
+            <p className="mb-2 flex items-start gap-1.5 border-2 border-dashed border-ink bg-coral px-2 py-1 text-sm font-medium text-ink">
               <Icon name="alert" size={18} className="shrink-0" /> {laneMeta.get(id)?.issue}
             </p>
-            <button type="button" onClick={() => dispatch({ type: "fixIssue", laneId: id })} className="lane-btn w-full bg-red-500 text-white" data-testid={`fix-${id}`}>
+            <button type="button" onClick={() => dispatch({ type: "fixIssue", laneId: id })} className="lane-btn retro-press w-full bg-butter" data-testid={`fix-${id}`}>
               <Icon name="check" size={18} /> Apply glossary fix
             </button>
           </div>
         );
       case "approved":
         return (
-          <button type="button" onClick={() => dispatch({ type: "publish", laneId: id })} className="lane-btn w-full bg-gradient-to-r from-blue-500 to-purple-500 text-white" data-testid={`publish-${id}`}>
+          <button type="button" onClick={() => dispatch({ type: "publish", laneId: id })} className="lane-btn retro-press w-full bg-mint" data-testid={`publish-${id}`}>
             <Icon name="rocket" size={18} /> Publish
           </button>
         );
       case "published":
         return (
-          <p className="flex items-center gap-2 text-lg font-bold text-blue-300">
+          <p className="flex items-center gap-2 border-2 border-ink bg-mint px-3 py-1 font-pixel text-lg uppercase text-ink shadow-pixel-sm">
             <Icon name="check" size={22} /> Live
           </p>
         );
@@ -134,11 +135,11 @@ export function LaunchScene({
       doneLabel={allLive ? "Launched!" : "Time!"}
     >
       <div className="mb-3 flex flex-col gap-3 lg:flex-row lg:items-center">
-        <div className="glass flex-1 rounded-2xl px-4 py-3">
-          <p className="text-xs font-bold uppercase tracking-widest text-muted">{launchContent.agency}</p>
+        <RetroWindow title="ANNOUNCEMENT.DOC" icon="chat" className="flex-1" bodyClassName="px-4 py-3">
+          <p className="font-pixel text-xs uppercase text-muted">{launchContent.agency}</p>
           <p className="text-lg font-bold">{launchContent.announcement}</p>
-          <p className="text-sm text-blue-300">English source approved · translate, review and publish all three languages</p>
-        </div>
+          <p className="text-sm text-forest">English source approved · translate, review and publish all three languages</p>
+        </RetroWindow>
         <div className="flex items-center gap-2" role="group" aria-label="Reviewers">
           {state.reviewers.map((r) => {
             const busy = r.laneId !== null;
@@ -149,7 +150,8 @@ export function LaunchScene({
                 type="button"
                 drag={!busy}
                 dragSnapToOrigin
-                whileDrag={{ scale: 1.1, zIndex: 30 }}
+                style={{ boxShadow: busy ? "none" : CARD_SHADOW }}
+                whileDrag={DRAG_LIFT}
                 onDrag={(e) => {
                   const p = clientPoint(e as PointerEvent);
                   const t = p ? dropTargetAt(p.x, p.y) : null;
@@ -164,15 +166,16 @@ export function LaunchScene({
                 onClick={() => dispatch({ type: "selectReviewer", reviewerId: r.id })}
                 disabled={busy || !playing}
                 aria-pressed={selected}
-                className={`flex min-h-14 touch-none items-center gap-2 rounded-2xl border-2 px-3 py-2 text-left ${
-                  selected ? "border-purple-300 bg-purple-500/40 ring-4 ring-purple-400/50" : busy ? "border-white/10 bg-white/5 opacity-60" : "cursor-grab border-white/30 bg-navy-700"
+                className={`flex min-h-14 touch-none items-stretch border-2 border-ink text-left text-ink ${
+                  selected ? "bg-coral outline-4 outline-offset-2 outline-witty-red" : busy ? "checker border-dashed" : "cursor-grab bg-paper active:cursor-grabbing"
                 }`}
                 data-testid={`reviewer-${r.id}`}
               >
-                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+                <span aria-hidden className={`w-3 shrink-0 border-r-2 border-ink ${busy ? "bg-checker" : "grip"}`} />
+                <span className="ml-2 flex h-9 w-9 items-center justify-center self-center border-2 border-ink bg-butter">
                   <Icon name="user" size={20} />
                 </span>
-                <span className="leading-tight">
+                <span className="self-center px-2 py-1 leading-tight">
                   <span className="block text-sm font-bold">{reviewerName.get(r.id)}</span>
                   <span className="block text-xs text-muted">{busy ? `Reviewing ${laneMeta.get(r.laneId!)?.label}` : "Available"}</span>
                 </span>
@@ -191,35 +194,43 @@ export function LaunchScene({
             <div
               key={lane.id}
               data-drop={`lane-${lane.id}`}
-              className={`flex flex-col gap-3 rounded-2xl border-2 p-3 transition sm:p-4 ${
-                hoverLane === `lane-${lane.id}` ? "border-purple-300 bg-purple-500/20" : lane.stage === "published" ? "border-blue-300 bg-blue-500/15" : "border-white/15 bg-navy-800/80"
+              className={`flex flex-col border-2 border-ink transition-[transform,box-shadow] duration-100 ${
+                hoverLane === `lane-${lane.id}`
+                  ? "-translate-y-1 bg-butter shadow-pixel-lg outline-4 outline-offset-2 outline-dashed outline-witty-red"
+                  : "bg-paper shadow-pixel"
               }`}
               data-testid={`lane-${lane.id}`}
               data-stage={lane.stage}
             >
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-bold" lang={lane.id}>{meta.label}</h3>
-                <span className="text-xs font-semibold uppercase tracking-wider text-muted">{PIPELINE[idx]?.label}</span>
+              <div
+                className={`flex items-center justify-between gap-2 border-b-2 border-ink px-2 py-1.5 ${
+                  lane.stage === "published" ? "bg-mint" : lane.stage === "issue" ? "bg-coral" : "bg-butter"
+                }`}
+              >
+                <h3 className="text-base font-bold" lang={lane.id}>{meta.label}</h3>
+                <span className="font-pixel text-[0.65rem] uppercase text-ink">{PIPELINE[idx]?.label}</span>
               </div>
+              <div className="flex flex-1 flex-col gap-3 p-3 sm:p-4">
               <ol className="hidden items-center gap-1 sm:flex" aria-label={`Stage: ${PIPELINE[idx]?.label}`}>
                 {PIPELINE.map((p, i) => (
                   <li key={p.label} className="flex flex-1 items-center gap-1">
                     <span
-                      className={`flex h-7 w-7 items-center justify-center rounded-full border-2 ${
-                        i < idx ? "border-blue-300 bg-blue-500 text-white" : i === idx ? "border-purple-300 bg-purple-500/40" : "border-white/20 text-white/40"
+                      className={`flex h-7 w-7 items-center justify-center border-2 ${
+                        i < idx ? "border-ink bg-forest text-paper" : i === idx ? "border-ink bg-butter text-ink" : "border-dashed border-muted bg-paper text-muted"
                       }`}
                       title={p.label}
                     >
                       <Icon name={i < idx ? "check" : p.icon} size={14} />
                     </span>
-                    {i < PIPELINE.length - 1 ? <span className={`h-0.5 flex-1 ${i < idx ? "bg-blue-300" : "bg-white/15"}`} /> : null}
+                    {i < PIPELINE.length - 1 ? <span className={`h-1 flex-1 ${i < idx ? "bg-forest" : "bg-checker"}`} /> : null}
                   </li>
                 ))}
               </ol>
-              <p lang={lane.id} className={`min-h-12 rounded-xl px-3 py-2 text-sm ${showText ? "bg-white text-navy-950" : "bg-white/5 text-muted"}`}>
+              <p lang={lane.id} className={`min-h-12 border-2 border-ink px-3 py-2 text-sm ${showText ? "bg-paper text-ink" : "checker border-dashed text-muted"}`}>
                 {showText ? meta.sample : "Waiting for translation…"}
               </p>
               <div className="mt-auto flex min-h-12 items-center">{laneAction(lane)}</div>
+              </div>
             </div>
           );
         })}

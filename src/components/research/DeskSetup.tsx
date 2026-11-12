@@ -47,7 +47,7 @@ export function DeskSetup({
       }
     >
       <fieldset className="mb-5">
-        <legend className="mb-2 text-lg font-bold">{wf.prompt}</legend>
+        <legend className="mb-2 font-pixel text-sm uppercase sm:text-base">{wf.prompt}</legend>
         <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3" role="radiogroup" aria-label={wf.prompt}>
           {options.map((o) => (
             <OptionCard
@@ -58,7 +58,7 @@ export function DeskSetup({
               onClick={() => setRole(role === o.id ? null : o.id)}
               testId={`wf-${o.id}`}
               icon={
-                <span className="flex h-9 w-12 items-center justify-center rounded-md border border-white/30 bg-white/10 text-[0.6rem] font-black uppercase tracking-wider">
+                <span className="flex h-9 w-12 items-center justify-center border-2 border-ink bg-butter font-pixel text-[0.6rem] uppercase">
                   Desk
                 </span>
               }
@@ -68,16 +68,16 @@ export function DeskSetup({
       </fieldset>
 
       <fieldset>
-        <legend className="mb-2 text-lg font-bold">{freq.prompt}</legend>
+        <legend className="mb-2 font-pixel text-sm uppercase sm:text-base">{freq.prompt}</legend>
         <div className="flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
           <div
             aria-hidden
-            className="mx-auto flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-2 border-white/30 transition"
-            style={{ backgroundColor: `rgb(157 184 255 / ${0.1 + glow * 0.8})`, boxShadow: `0 0 ${glow * 40}px rgb(160 123 255 / ${glow})` }}
+            className="mx-auto flex h-16 w-16 shrink-0 items-center justify-center border-2 border-ink text-ink transition"
+            style={{ backgroundColor: `rgb(255 232 133 / ${0.15 + glow * 0.85})`, boxShadow: `${2 + glow * 6}px ${2 + glow * 6}px 0 #2c2523` }}
           >
             <Icon name="sparkle" size={28} />
           </div>
-          <div className="grid flex-1 grid-cols-5 gap-1.5 rounded-2xl bg-white/5 p-1.5" role="radiogroup" aria-label={freq.prompt}>
+          <div className="checker grid flex-1 grid-cols-5 gap-1.5 border-2 border-ink p-1.5" role="radiogroup" aria-label={freq.prompt}>
             {freq.options.map((o) => (
               <button
                 key={o.id}
@@ -85,8 +85,8 @@ export function DeskSetup({
                 role="radio"
                 aria-checked={frequency === o.id}
                 onClick={() => setFrequency(frequency === o.id ? null : o.id)}
-                className={`min-h-14 rounded-xl px-1 text-sm font-bold transition sm:text-base ${
-                  frequency === o.id ? "bg-gradient-to-b from-purple-500 to-blue-500 text-white shadow-lg" : "text-muted hover:bg-white/10 hover:text-ink"
+                className={`min-h-14 border-2 px-1 text-sm font-bold sm:text-base ${
+                  frequency === o.id ? "border-ink bg-mint text-ink shadow-pixel-sm" : "border-transparent text-ink hover:border-ink hover:bg-paper"
                 }`}
                 data-testid={`freq-${o.id}`}
               >

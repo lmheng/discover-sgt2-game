@@ -3,7 +3,7 @@
 import { useMemo, type CSSProperties } from "react";
 import { mulberry32 } from "@/lib/game/rng";
 
-const COLOURS = ["#2f6bff", "#7b4dff", "#9db8ff", "#d9ccff", "#ff4d5e", "#ffffff"];
+const COLOURS = ["#e63946", "#88d49e", "#ffe885", "#ff9f9f", "#1e5631", "#fffdf9"];
 
 /** Lightweight CSS confetti (transform-only; hidden under reduced motion). */
 export function Confetti({ count = 60, seed = 7 }: { count?: number; seed?: number }) {
@@ -18,7 +18,8 @@ export function Confetti({ count = 60, seed = 7 }: { count?: number; seed?: numb
         "--rot": `${360 + r() * 720}deg`,
         "--dur": `${2.2 + r() * 1.8}s`,
         "--delay": `${r() * 0.6}s`,
-        borderRadius: r() > 0.5 ? "50%" : "2px",
+        // Square "pixels"; every third piece is a wide strip.
+        ...(r() > 0.66 ? { width: "16px", height: "6px" } : {}),
       } as CSSProperties,
     }));
   }, [count, seed]);

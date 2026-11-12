@@ -37,9 +37,9 @@ export function Icon({ name, size = 24, ...rest }: { name: IconName; size?: numb
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
-      strokeWidth={2.2}
-      strokeLinecap="round"
-      strokeLinejoin="round"
+      strokeWidth={2.4}
+      strokeLinecap="square"
+      strokeLinejoin="miter"
       aria-hidden="true"
       focusable="false"
       {...rest}

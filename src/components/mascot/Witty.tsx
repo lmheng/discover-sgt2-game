@@ -70,9 +70,9 @@ export function Witty({
           role={decorative ? undefined : "img"}
           aria-label={decorative ? undefined : `${altFor[pose]} (placeholder)`}
           aria-hidden={decorative || undefined}
-          className="flex h-full w-full flex-col items-center justify-center rounded-3xl border-2 border-dashed border-blue-300/70 bg-navy-800/70 text-center"
+          className="checker flex h-full w-full flex-col items-center justify-center border-2 border-dashed border-ink text-center"
         >
-          <span className="text-[0.7rem] font-bold uppercase tracking-widest text-blue-300" style={{ fontSize: Math.max(10, size / 9) }}>
+          <span className="font-pixel text-[0.7rem] uppercase tracking-wide text-forest" style={{ fontSize: Math.max(10, size / 9) }}>
             wiTTy
           </span>
           <span className="mt-0.5 text-[0.6rem] text-muted" style={{ fontSize: Math.max(9, size / 12) }}>

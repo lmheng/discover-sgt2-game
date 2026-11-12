@@ -111,6 +111,23 @@ export function useKeys(handler: (e: KeyboardEvent) => void, enabled = true) {
   }, [enabled]);
 }
 
+/** Subscribes to a CSS media query (false during the first render / without matchMedia). */
+export function useMediaQuery(query: string): boolean {
+  const [matches, setMatches] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia) return;
+    const mql = window.matchMedia(query);
+    const update = () => setMatches(mql.matches);
+    const id = requestAnimationFrame(update);
+    mql.addEventListener("change", update);
+    return () => {
+      cancelAnimationFrame(id);
+      mql.removeEventListener("change", update);
+    };
+  }, [query]);
+  return matches;
+}
+
 /** Find the drop target (an element with data-drop) under a viewport point. */
 export function dropTargetAt(clientX: number, clientY: number): string | null {
   if (typeof document === "undefined") return null;

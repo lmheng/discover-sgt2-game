@@ -51,16 +51,16 @@ export function PowerUpPick({ seed, onDone }: { seed: number; onDone: (a: Single
               whileHover={{ y: -4 }}
               whileTap={{ scale: 0.96 }}
               animate={on ? { scale: [1, 1.12, 1] } : {}}
-              className={`flex min-h-32 flex-col items-center justify-center gap-2 rounded-3xl border-2 p-3 text-center font-bold transition ${
-                on
-                  ? "border-white bg-gradient-to-br from-purple-500 to-blue-500 shadow-xl shadow-purple-900/50"
-                  : pinned
-                    ? "border-dashed border-white/25 bg-navy-800/70 text-muted"
-                    : "border-white/25 bg-navy-700 hover:border-purple-300"
+              className={`flex min-h-32 flex-col items-center justify-center gap-2 border-2 border-ink p-3 text-center font-bold text-ink ${
+                on ? "bg-mint shadow-pixel-lg" : pinned ? "checker border-dashed text-muted shadow-pixel-sm" : "bg-paper shadow-pixel"
               }`}
               data-testid={`cap-${o.id}`}
             >
-              <span className={`flex h-14 w-14 items-center justify-center rounded-full ${on ? "bg-white text-purple-600" : "bg-white/10"} ${!pinned && !picked ? "animate-pulse-ring" : ""}`}>
+              <span
+                className={`flex h-14 w-14 items-center justify-center border-2 border-ink ${on ? "bg-forest text-paper" : pinned ? "bg-paper" : "bg-butter"} ${
+                  !pinned && !picked ? "animate-pulse-ring" : ""
+                }`}
+              >
                 <Icon name={on ? "check" : (icons[o.id] ?? "sparkle")} size={26} />
               </span>
               <span className="leading-tight">{o.label}</span>

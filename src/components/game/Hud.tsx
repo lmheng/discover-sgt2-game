@@ -4,36 +4,8 @@ import { AnimatePresence, motion } from "motion/react";
 import { comboMultiplier } from "@/lib/game/scoring";
 import { MISSION_TITLES, missionIds, type Feedback, type MissionId } from "@/lib/game/types";
 import { Icon } from "@/components/ui/Icon";
+import { BlockBar, PixelProgress } from "@/components/ui/PixelProgress";
 import { useAnimatedNumber } from "./hooks";
-
-export function ProgressDots({ current, completed }: { current: MissionId | null; completed: number }) {
-  return (
-    <ol className="flex items-center gap-1.5" aria-label={`Mission progress: ${completed} of 3 complete`}>
-      {missionIds.map((m, i) => {
-        const done = i < completed;
-        const active = m === current;
-        return (
-          <li
-            key={m}
-            title={MISSION_TITLES[m]}
-            className={`flex h-6 w-6 items-center justify-center rounded-full border-2 text-[0.65rem] font-bold ${
-              done
-                ? "border-blue-300 bg-blue-500 text-white"
-                : active
-                  ? "border-purple-400 bg-purple-500/30 text-ink"
-                  : "border-white/25 text-muted"
-            }`}
-          >
-            {done ? <Icon name="check" size={14} /> : i + 1}
-            <span className="sr-only">
-              {MISSION_TITLES[m]} {done ? "complete" : active ? "in progress" : "not started"}
-            </span>
-          </li>
-        );
-      })}
-    </ol>
-  );
-}
 
 export function Timer({ remainingMs, totalMs }: { remainingMs: number; totalMs: number }) {
   const secs = Math.ceil(Math.max(0, remainingMs) / 1000);
@@ -41,14 +13,12 @@ export function Timer({ remainingMs, totalMs }: { remainingMs: number; totalMs: 
   const low = secs <= 5;
   return (
     <div className="flex min-w-0 flex-1 items-center gap-2" role="timer" aria-label={`${secs} seconds left`}>
-      <Icon name="clock" size={20} className={low ? "text-red-400" : "text-blue-300"} />
-      <div className="relative h-3 min-w-16 flex-1 overflow-hidden rounded-full bg-white/10">
-        <div
-          className={`absolute inset-y-0 left-0 rounded-full ${low ? "bg-red-500" : "bg-gradient-to-r from-blue-500 to-purple-500"}`}
-          style={{ width: `${frac * 100}%`, transition: "width 120ms linear" }}
-        />
-      </div>
-      <span className={`w-9 text-right font-mono text-lg font-bold tabular-nums ${low ? "text-red-400" : ""}`} aria-hidden>
+      <Icon name="clock" size={20} className={low ? "text-witty-red-ink" : "text-ink"} />
+      <BlockBar fraction={frac} blocks={16} tone={low ? "red" : "forest"} className="min-w-16 flex-1" />
+      <span
+        className={`w-10 text-right font-pixel text-lg tabular-nums ${low ? "animate-blink text-witty-red-ink" : "text-ink"}`}
+        aria-hidden
+      >
         {secs}s
       </span>
     </div>
@@ -58,14 +28,14 @@ export function Timer({ remainingMs, totalMs }: { remainingMs: number; totalMs: 
 export function ScoreCounter({ score, label = "Score" }: { score: number; label?: string }) {
   const shown = useAnimatedNumber(score);
   return (
-    <div className="flex flex-col items-end leading-none" aria-live="off">
-      <span className="text-[0.65rem] font-semibold uppercase tracking-widest text-muted">{label}</span>
+    <div className="checker flex flex-col items-end border-2 border-ink px-2 py-1 leading-none" aria-live="off">
+      <span className="font-pixel text-[0.6rem] uppercase text-muted">{label}</span>
       <motion.span
         key={score}
         initial={{ scale: 1.25 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 400, damping: 18 }}
-        className="font-mono text-2xl font-extrabold tabular-nums"
+        className="font-pixel text-xl tabular-nums text-ink sm:text-2xl"
         data-testid="score"
       >
         {shown.toLocaleString("en-SG")}
@@ -83,10 +53,10 @@ export function ComboBadge({ streak }: { streak: number }) {
           <motion.div
             key={mult}
             initial={{ scale: 0.4, rotate: -12, opacity: 0 }}
-            animate={{ scale: 1, rotate: 0, opacity: 1 }}
+            animate={{ scale: 1, rotate: -4, opacity: 1 }}
             exit={{ scale: 0.4, opacity: 0 }}
             transition={{ type: "spring", stiffness: 500, damping: 15 }}
-            className="flex items-center gap-1 rounded-xl border-2 border-purple-300 bg-gradient-to-br from-purple-500 to-blue-500 px-2.5 py-1 text-lg font-black text-white shadow-lg shadow-purple-900/50"
+            className="flex items-center gap-1 border-2 border-ink bg-butter px-2 py-1 font-pixel text-lg text-ink shadow-pixel-sm"
           >
             <Icon name="bolt" size={16} />x{mult}
             <span className="sr-only">combo multiplier</span>
@@ -112,30 +82,36 @@ export function Hud({
   score: number;
   streak: number;
 }) {
+  const stageNo = missionIds.indexOf(mission) + 1;
   return (
-    <header className="glass flex flex-wrap items-center gap-x-4 gap-y-2 rounded-2xl px-3 py-2 sm:px-4">
-      <div className="flex items-center gap-3">
-        <ProgressDots current={mission} completed={completed} />
-        <h2 className="hidden text-sm font-bold tracking-wide sm:block">{MISSION_TITLES[mission]}</h2>
+    <header className="retro-surface flex flex-col">
+      <div className="flex items-center gap-2 border-b-2 border-ink bg-butter px-2 py-1">
+        <h2 className="flex min-w-0 items-center gap-1.5 font-pixel text-xs uppercase leading-none sm:text-sm">
+          <span className="shrink-0">STAGE_0{stageNo}.EXE</span>
+          <span className="hidden truncate text-muted sm:inline">· {MISSION_TITLES[mission]}</span>
+        </h2>
+        <PixelProgress completed={completed} compact blocks={9} className="ml-auto w-40 sm:w-60" />
       </div>
-      <Timer remainingMs={remainingMs} totalMs={totalMs} />
-      <div className="ml-auto flex items-center gap-3">
-        <ComboBadge streak={streak} />
-        <ScoreCounter score={score} />
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2 px-2 py-2 sm:px-3">
+        <Timer remainingMs={remainingMs} totalMs={totalMs} />
+        <div className="ml-auto flex items-center gap-3">
+          <ComboBadge streak={streak} />
+          <ScoreCounter score={score} />
+        </div>
       </div>
     </header>
   );
 }
 
 const feedbackStyle: Record<Feedback["kind"], { icon: "check" | "cross" | "alert" | "info" | "clock"; cls: string; label: string }> = {
-  correct: { icon: "check", cls: "border-blue-300 bg-blue-600/90", label: "Correct" },
-  wrong: { icon: "cross", cls: "border-dashed border-red-400 bg-navy-800/95", label: "Not quite" },
-  expired: { icon: "clock", cls: "border-dashed border-red-400 bg-navy-800/95", label: "Timed out" },
-  warning: { icon: "alert", cls: "border-red-400 bg-red-500/90", label: "Hold on" },
-  info: { icon: "info", cls: "border-purple-300 bg-purple-600/90", label: "Tip" },
+  correct: { icon: "check", cls: "bg-mint text-ink", label: "Correct" },
+  wrong: { icon: "cross", cls: "bg-coral text-ink", label: "Not quite" },
+  expired: { icon: "clock", cls: "bg-coral text-ink", label: "Timed out" },
+  warning: { icon: "alert", cls: "bg-butter text-ink", label: "Hold on" },
+  info: { icon: "info", cls: "bg-paper text-ink", label: "Tip" },
 };
 
-/** Live feedback banner: icon + label + text, never colour alone. */
+/** Live feedback banner as a mini system dialog: icon + label + text, never colour alone. */
 export function FeedbackToast({ feedback }: { feedback: Feedback | null }) {
   return (
     <div className="pointer-events-none min-h-14" aria-live="assertive" aria-atomic="true">
@@ -147,17 +123,21 @@ export function FeedbackToast({ feedback }: { feedback: Feedback | null }) {
             animate={{ y: 0, opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.18 }}
-            className={`mx-auto flex max-w-xl items-center gap-3 rounded-2xl border-2 px-4 py-2.5 text-white shadow-xl ${feedbackStyle[feedback.kind].cls}`}
+            className={`mx-auto flex max-w-xl items-stretch border-2 border-ink shadow-pixel ${feedbackStyle[feedback.kind].cls}`}
             data-testid="feedback"
             data-kind={feedback.kind}
           >
-            <Icon name={feedbackStyle[feedback.kind].icon} size={22} />
-            <p className="text-sm font-medium sm:text-base">
-              <span className="font-bold">{feedbackStyle[feedback.kind].label}. </span>
+            <span className="flex items-center border-r-2 border-ink bg-paper px-2.5">
+              <Icon name={feedbackStyle[feedback.kind].icon} size={22} strokeWidth={3} />
+            </span>
+            <p className="flex-1 px-3 py-2 text-sm font-medium sm:text-base">
+              <span className="font-pixel font-bold uppercase">{feedbackStyle[feedback.kind].label}. </span>
               {feedback.message}
             </p>
             {feedback.points > 0 ? (
-              <span className="ml-auto animate-pop font-mono text-lg font-black">+{feedback.points}</span>
+              <span className="flex items-center border-l-2 border-ink bg-paper px-2.5 font-pixel text-lg text-forest animate-pop">
+                +{feedback.points}
+              </span>
             ) : null}
           </motion.div>
         ) : null}

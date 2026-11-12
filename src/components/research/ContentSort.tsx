@@ -7,6 +7,7 @@ import { shuffleWithPinned } from "@/lib/game/rng";
 import type { MultiAnswer } from "@/lib/research/schema";
 import { Button, Kbd } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { CARD_SHADOW, DRAG_LIFT, FolderBucket } from "@/components/ui/DragKit";
 import { clientPoint, dropTargetAt, useKeys } from "@/components/game/hooks";
 import { InterludeFrame } from "./InterludeFrame";
 
@@ -45,8 +46,9 @@ export function ContentSort({ seed, onDone }: { seed: number; onDone: (a: MultiA
         </Button>
       }
     >
-      <p className="mb-3 text-center text-sm text-muted" aria-live="polite">
+      <p className="mb-3 text-center font-pixel text-xs uppercase text-muted" aria-live="polite">
         {finished ? `Sorted! ${mine.length} on your desk.` : `Card ${index + 1} of ${deck.length}`}
+        {!finished ? <span className="block pt-1 normal-case sm:hidden">Drag the card, or just tap a folder.</span> : null}
       </p>
       <div className="flex min-h-40 items-center justify-center">
         <AnimatePresence mode="popLayout">
@@ -58,7 +60,8 @@ export function ContentSort({ seed, onDone }: { seed: number; onDone: (a: MultiA
               exit={{ opacity: 0, scale: 0.8, transition: { duration: 0.15 } }}
               drag
               dragSnapToOrigin
-              whileDrag={{ scale: 1.06, zIndex: 20 }}
+              style={{ boxShadow: CARD_SHADOW }}
+              whileDrag={DRAG_LIFT}
               onDrag={(e) => {
                 const p = clientPoint(e as PointerEvent);
                 const t = p ? dropTargetAt(p.x, p.y) : null;
@@ -70,42 +73,46 @@ export function ContentSort({ seed, onDone }: { seed: number; onDone: (a: MultiA
                 const t = p ? dropTargetAt(p.x, p.y) : null;
                 if (t === "mine" || t === "notme") sort(t);
               }}
-              className="w-full max-w-sm cursor-grab touch-none rounded-2xl bg-white px-5 py-6 text-center text-xl font-bold text-navy-950 shadow-2xl active:cursor-grabbing"
+              className="w-full max-w-sm cursor-grab touch-none border-2 border-ink bg-paper text-center text-ink active:cursor-grabbing"
               data-testid="content-card"
             >
-              {current.label}
+              <span aria-hidden className="grip block h-5 border-b-2 border-ink" />
+              <span className="block px-5 py-5 text-xl font-bold">{current.label}</span>
             </motion.div>
           ) : (
-            <div className="flex items-center gap-2 text-lg font-semibold text-blue-300">
+            <div className="flex items-center gap-2 border-2 border-ink bg-mint px-4 py-2 font-pixel text-lg uppercase text-ink shadow-pixel">
               <Icon name="check" size={24} /> All sorted
             </div>
           )}
         </AnimatePresence>
       </div>
-      <div className="mt-4 grid grid-cols-2 gap-3">
+      <div className="mt-7 grid grid-cols-2 gap-3 sm:gap-5">
         {(
           [
-            ["mine", "On my desk", "1", "check"],
-            ["notme", "Not me", "2", "cross"],
+            ["mine", "On my desk", "1", "check", "mint", "MY_DESK/"],
+            ["notme", "Not me", "2", "cross", "coral", "NOT_ME/"],
           ] as const
-        ).map(([id, label, key, icon]) => (
-          <button
+        ).map(([id, label, key, icon, tone, folder]) => (
+          <FolderBucket
             key={id}
-            type="button"
-            data-drop={id}
+            drop={id}
+            title={folder}
+            tone={tone}
+            hot={hover === id}
             disabled={finished}
             onClick={() => sort(id)}
-            className={`flex min-h-24 flex-col items-center justify-center gap-1 rounded-2xl border-2 text-lg font-bold transition ${
-              hover === id ? "scale-105 border-purple-300 bg-purple-500/30" : id === "mine" ? "border-white/25 bg-navy-700" : "border-dashed border-white/25 bg-navy-800"
-            }`}
-            data-testid={`sort-${id}`}
+            testId={`sort-${id}`}
+            className="min-h-28 disabled:opacity-60"
+            bodyClassName="text-lg font-bold"
           >
-            <Icon name={icon} size={24} />
+            <span className="flex h-9 w-9 items-center justify-center border-2 border-ink bg-paper">
+              <Icon name={icon} size={22} />
+            </span>
             {label}
             <span className="hidden sm:block">
               <Kbd>{key}</Kbd>
             </span>
-          </button>
+          </FolderBucket>
         ))}
       </div>
     </InterludeFrame>

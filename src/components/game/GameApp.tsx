@@ -294,7 +294,7 @@ export function GameApp({ mode }: { mode: GameMode }) {
     <GameContext.Provider value={{ event, mode, muted, toggleMute }}>
       <MotionConfig reducedMotion="user">
         <div
-          className={`arcade-bg relative min-h-dvh overflow-x-hidden ${mode === "kiosk" ? "kiosk" : ""}`}
+          className={`desk-bg relative min-h-dvh overflow-x-hidden ${mode === "kiosk" ? "kiosk" : ""}`}
           onContextMenu={mode === "kiosk" ? (e) => e.preventDefault() : undefined}
           data-mode={mode}
         >

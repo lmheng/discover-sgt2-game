@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { exportPending, flush, onPendingChange } from "@/lib/analytics/client";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { RetroWindow } from "@/components/ui/RetroWindow";
 import { useGame } from "@/components/game/GameContext";
 import { useKeys } from "@/components/game/hooks";
 
@@ -113,24 +114,23 @@ export function KioskLayer({
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[70] flex items-center justify-center bg-navy-950/80 px-4"
+            className="fixed inset-0 z-[70] flex items-center justify-center bg-ink/50 px-4"
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="idle-title"
             data-testid="idle-warning"
           >
-            <div className="glass flex w-full max-w-md flex-col items-center gap-4 rounded-3xl p-8 text-center">
-              <Icon name="clock" size={44} className="text-blue-300" />
-              <h2 id="idle-title" className="text-3xl font-black">
+            <RetroWindow title="IDLE.MSG" icon="clock" variant="butter" className="w-full max-w-md" bodyClassName="flex flex-col items-center gap-4 p-8 text-center">
+              <h2 id="idle-title" className="font-pixel text-3xl font-bold uppercase">
                 Still playing?
               </h2>
               <p className="text-lg text-muted">
-                Returning to the start screen in <span className="font-mono text-2xl font-black text-ink">{countdown}</span> s
+                Returning to the start screen in <span className="font-pixel text-2xl text-ink">{countdown}</span> s
               </p>
               <Button size="xl" onClick={() => setCountdown(null)} autoFocus>
                 I&apos;m still here
               </Button>
-            </div>
+            </RetroWindow>
           </motion.div>
         ) : null}
       </AnimatePresence>
@@ -150,12 +150,12 @@ export function KioskLayer({
       ) : null}
 
       {reminderOpen ? (
-        <div className="fixed inset-0 z-[80] flex items-center justify-center bg-navy-950/95 px-6" role="dialog" aria-modal="true" aria-labelledby="goventry-title" data-testid="goventry-reminder">
-          <div className="flex max-w-2xl flex-col items-center gap-6 text-center">
-            <span className="flex h-24 w-24 items-center justify-center rounded-3xl bg-gradient-to-br from-blue-500 to-purple-500">
+        <div className="desk-bg fixed inset-0 z-[80] flex items-center justify-center px-6" role="dialog" aria-modal="true" aria-labelledby="goventry-title" data-testid="goventry-reminder">
+          <div className="retro-surface flex max-w-2xl flex-col items-center gap-6 p-8 text-center">
+            <span className="flex h-24 w-24 items-center justify-center border-2 border-ink bg-butter shadow-pixel">
               <Icon name="stamp" size={52} />
             </span>
-            <h2 id="goventry-title" className="text-4xl font-black sm:text-5xl">
+            <h2 id="goventry-title" className="font-pixel text-3xl font-bold uppercase sm:text-5xl">
               GovEntry booth stamp
             </h2>
             <p className="text-2xl text-muted">{event.govEntryReminder}</p>
@@ -202,16 +202,17 @@ function StaffPanel({ onClose, onReset, onReminder }: { onClose: () => void; onR
   };
 
   return (
-    <div className="fixed inset-0 z-[75] flex items-center justify-center bg-navy-950/85 px-4" role="dialog" aria-modal="true" aria-labelledby="staff-title" data-testid="staff-panel">
-      <div className="w-full max-w-lg rounded-3xl border border-white/20 bg-navy-900 p-6 shadow-2xl">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 id="staff-title" className="text-xl font-black">
-            Staff panel
-          </h2>
-          <button type="button" onClick={onClose} className="flex min-h-11 min-w-11 items-center justify-center rounded-xl hover:bg-white/10" aria-label="Close staff panel">
-            <Icon name="cross" />
-          </button>
-        </div>
+    <div className="fixed inset-0 z-[75] flex items-center justify-center bg-ink/50 px-4" role="dialog" aria-modal="true" aria-labelledby="staff-title" data-testid="staff-panel">
+      <RetroWindow
+        title="STAFF_PANEL.SYS"
+        titleId="staff-title"
+        icon="lock"
+        variant="coral"
+        onClose={onClose}
+        closeLabel="Close staff panel"
+        className="w-full max-w-lg"
+        bodyClassName="p-6"
+      >
         {pinMode ? (
           <div className="flex flex-col items-center gap-3">
             <p className="text-muted">Enter staff PIN to exit kiosk mode</p>
@@ -223,7 +224,7 @@ function StaffPanel({ onClose, onReset, onReminder }: { onClose: () => void; onR
                 <button
                   key={k}
                   type="button"
-                  className="h-14 w-16 rounded-xl bg-white/10 text-xl font-bold hover:bg-white/20"
+                  className="retro-press h-14 w-16 border-2 border-ink bg-paper font-pixel text-xl text-ink shadow-pixel-sm"
                   onClick={() => (k === "C" ? setPin("") : k === "←" ? setPin(pin.slice(0, -1)) : pressDigit(k))}
                 >
                   {k}
@@ -250,7 +251,7 @@ function StaffPanel({ onClose, onReset, onReminder }: { onClose: () => void; onR
                 Fullscreen
               </Button>
             </div>
-            <div className="rounded-2xl bg-white/5 p-3 text-sm">
+            <div className="checker border-2 border-ink p-3 text-sm">
               <p className="mb-2">
                 Records waiting to sync on this device: <strong data-testid="pending-count">{pending ?? "…"}</strong>
               </p>
@@ -276,7 +277,7 @@ function StaffPanel({ onClose, onReset, onReminder }: { onClose: () => void; onR
             </Button>
           </div>
         )}
-      </div>
+      </RetroWindow>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { shuffleWithPinned } from "@/lib/game/rng";
 import { toggleMulti, type MultiAnswer } from "@/lib/research/schema";
 import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
+import { CARD_SHADOW, DRAG_LIFT } from "@/components/ui/DragKit";
 import { clientPoint, dropTargetAt } from "@/components/game/hooks";
 import { InterludeFrame, OptionCard } from "./InterludeFrame";
 
@@ -41,7 +42,7 @@ export function CaseFiles({ seed, onDone }: { seed: number; onDone: (a: MultiAns
               onClick={() => setPicked((p) => toggleMulti("challenges", p, o.id))}
               testId={`challenge-${o.id}`}
               icon={
-                <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${on ? "bg-white text-purple-600" : "bg-white/10"}`}>
+                <span className={`flex h-10 w-10 shrink-0 items-center justify-center border-2 border-ink ${on ? "bg-witty-red text-white" : "bg-butter"}`}>
                   <Icon name={on ? "stamp" : "search"} size={20} />
                 </span>
               }
@@ -91,7 +92,8 @@ export function CrewBoard({ seed, onDone }: { seed: number; onDone: (a: MultiAns
                 aria-checked={on}
                 drag={!on}
                 dragSnapToOrigin
-                whileDrag={{ scale: 1.08, zIndex: 20 }}
+                style={{ boxShadow: on ? "2px 2px 0px #2c2523" : CARD_SHADOW }}
+                whileDrag={DRAG_LIFT}
                 onDrag={(e) => {
                   const p = clientPoint(e as PointerEvent);
                   setHover(!!p && dropTargetAt(p.x, p.y) === "crew");
@@ -102,25 +104,32 @@ export function CrewBoard({ seed, onDone }: { seed: number; onDone: (a: MultiAns
                   if (p && dropTargetAt(p.x, p.y) === "crew") setCrew((c) => (c.includes(o.id) ? c : toggleMulti("tools", c, o.id)));
                 }}
                 onClick={() => setCrew((c) => toggleMulti("tools", c, o.id))}
-                className={`flex min-h-14 touch-none items-center gap-2 rounded-full border-2 px-4 py-2 font-semibold transition ${
-                  on ? "border-purple-300 bg-purple-500/50 opacity-60" : "cursor-grab border-white/25 bg-navy-700 hover:border-blue-300"
+                className={`flex min-h-14 touch-none items-stretch border-2 border-ink text-left font-semibold text-ink ${
+                  on ? "bg-mint" : "cursor-grab bg-paper active:cursor-grabbing"
                 }`}
                 data-testid={`tool-${o.id}`}
               >
-                <Icon name={on ? "check" : "user"} size={18} />
-                {o.label}
+                <span aria-hidden className={`w-3 shrink-0 border-r-2 border-ink ${on ? "bg-forest" : "grip"}`} />
+                <span className="flex items-center gap-2 px-3 py-2">
+                  <Icon name={on ? "check" : "user"} size={18} />
+                  {o.label}
+                </span>
               </motion.button>
             );
           })}
         </div>
         <div
           data-drop="crew"
-          className={`flex min-h-44 flex-col gap-2 rounded-3xl border-2 border-dashed p-4 transition ${hover ? "border-purple-300 bg-purple-500/20" : "border-white/30 bg-white/5"}`}
+          className={`relative mt-3.5 flex min-h-44 flex-col border-2 border-ink transition-[transform,box-shadow] duration-100 ${
+            hover ? "-translate-y-1 shadow-pixel-lg outline-4 outline-offset-2 outline-dashed outline-witty-red" : "shadow-pixel"
+          }`}
           aria-live="polite"
         >
-          <p className="text-sm font-bold uppercase tracking-widest text-muted">My crew board</p>
+          <span aria-hidden className="absolute -top-3.5 left-2 h-3.5 w-14 border-2 border-b-0 border-ink bg-mint" />
+          <p className={`border-b-2 border-ink px-2 py-1 font-pixel text-xs uppercase ${hover ? "bg-coral" : "bg-mint"}`}>MY_CREW/</p>
+          <div className={`flex flex-1 flex-col p-3 ${hover ? "bg-butter" : "checker"}`}>
           {crew.length === 0 ? (
-            <p className="m-auto text-muted">Drop crew members here</p>
+            <p className="m-auto text-muted">Drop or tap crew members here</p>
           ) : (
             <ul className="flex flex-wrap gap-2">
               {crew.map((id) => (
@@ -128,7 +137,7 @@ export function CrewBoard({ seed, onDone }: { seed: number; onDone: (a: MultiAns
                   <button
                     type="button"
                     onClick={() => setCrew((c) => c.filter((x) => x !== id))}
-                    className="inline-flex min-h-11 items-center gap-1.5 rounded-full bg-white px-3 py-1.5 font-semibold text-navy-950"
+                    className="retro-press inline-flex min-h-11 items-center gap-1.5 border-2 border-ink bg-paper px-3 py-1.5 font-semibold text-ink shadow-pixel-sm"
                     aria-label={`Remove ${label(id)}`}
                   >
                     {label(id)} <Icon name="cross" size={14} />
@@ -137,6 +146,7 @@ export function CrewBoard({ seed, onDone }: { seed: number; onDone: (a: MultiAns
               ))}
             </ul>
           )}
+          </div>
         </div>
       </div>
     </InterludeFrame>
